@@ -33,3 +33,6 @@ For open question problem
 ```
 python med_rag_bias.py --input_file EquityMedQA/query_groups.csv --dataset_type MedMCQA --reranker_type cot --model llama3.18b 
 ```
+
+
+## Evaluate 
