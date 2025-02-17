@@ -4,20 +4,13 @@
 
 MedRAG is a retrieval-augmented generation (RAG) system designed for processing and evaluating medical datasets. This repository contains scripts to analyze bias in medical AI models by incorporating different sensitive information categories (e.g., race, gender) into queries.
 
-## Project Structure
-MedRAG/
-│-- EquityMedQA/
-│-- MedMCQA/
-│-- MedQAUS/
-│-- MMLU/
-│-- result/
-│-- corpus/
-│-- data/
-│-- config.py
-│-- med_rag_bias.py
-│-- medrag_clean.py
-│-- utils.py
-│-- README.md
+## Download model
+
+In llama3.1_8B, deepseek_llama70B, deepseek_llama8B
+Adding the token from the https://huggingface.co/settings/tokens 
+```
+sh download.sh
+```
 
 ## Installation
 
