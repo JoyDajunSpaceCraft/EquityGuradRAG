@@ -36,3 +36,4 @@ python med_rag_bias.py --input_file EquityMedQA/query_groups.csv --dataset_type 
 
 
 ## Evaluate 
+The file will store in the result, and the `evaluate.ipynb` is the place to run the evaluation
