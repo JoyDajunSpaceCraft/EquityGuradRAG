@@ -34,6 +34,10 @@ For open question problem
 python med_rag_bias.py --input_file EquityMedQA/query_groups.csv --dataset_type MedMCQA --reranker_type cot --model llama3.18b 
 ```
 
+Model options
++ `llama3.18b` -> `meta-llama/Meta-Llama-3-8B`
++ `deepseekr1_8b` -> `deepseek-ai/DeepSeek-R1-Distill-Llama-8B`
++  `deepseekr1_70b` -> `deepseek-ai/DeepSeek-R1-Distill-Llama-70B`
 
 ## Evaluate 
 The file will store in the result, and the `evaluate.ipynb` is the place to run the evaluation

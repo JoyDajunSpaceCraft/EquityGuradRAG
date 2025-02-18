@@ -278,7 +278,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_file", type=str, default="rag_results.jsonl", help="Path to save the RAG results.")
     parser.add_argument("--dataset_type", type=str, required=True, choices=["MedQA", "MedMCQA", "MMLU","OpenQA"], help="Type of dataset.")
     parser.add_argument("--reranker_type", type=str, required=True, choices=["cot", "counter_factoral", "adversarial_prompt","plain"], default="plain",help="Type of dataset.")
-    parser.add_argument("--model", type=str, choices=["llama3.18b", "deepseekr1_8b"], default="llama3.18b",help="Type of model.")
+    parser.add_argument("--model", type=str, choices=["llama3.18b", "deepseekr1_8b", "deepseekr1_70b"], default="llama3.18b",help="Type of model.")
     parser.add_argument("--topk", type=int, default=10, help="How many retrieved docs")
     args = parser.parse_args()
      # Define base directories
@@ -298,11 +298,14 @@ if __name__ == "__main__":
     # Init rag
     llm_names = ["OpenAI/gpt-3.5-turbo-16k",
                 os.path.join(BASE_DIR,"llama3.1_8B"),
-                os.path.join(BASE_DIR, "deepseek_r1")]
+                os.path.join(BASE_DIR, "deepseek_llama8B"),
+                os.path.join(BASE_DIR, "deepseek_llama70B"),]
     if args.model == "llama3.18b":
         medrag = MedRAG(llm_name=llm_names[1])
     elif args.model == "deepseekr1_8b":
         medrag = MedRAG(llm_name=llm_names[2])
+    elif args.model == "deepseekr1_70b":
+        medrag = MedRAG(llm_name=llm_names[3])
     model_name =args.model
     
     process_dataset_with_rag(input_file, output_file, sensitive_categories, medrag, args.dataset_type, args.reranker_type, model_name, args.topk)
