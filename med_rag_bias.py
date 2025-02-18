@@ -182,6 +182,41 @@ def process_with_rag_openqa(group_id, queries, medrag, reranker_type, options_li
 
     return merged_result
 
+# def process_dataset_with_rag(input_file, output_file, sensitive_categories, medrag, dataset_type, reranker_type):
+#     """对整个数据集的 query 使用 RAG 系统处理"""
+#     data = load_dataset(input_file, dataset_type)
+#     print("data size",len(data))
+#     # data = data[:10]
+#     results = []
+#     if dataset_type == "OpenQA":
+#         # 🔹 **按 `Group ID` 进行分组**
+#         grouped_data = {}
+#         for record in data:
+#             group_id = record["group_id"]
+#             if group_id not in grouped_data:
+#                 grouped_data[group_id] = []
+#             grouped_data[group_id].append(record["question"])
+
+#         # 🔹 **遍历每个 Group ID 进行处理**
+#         for group_id, queries in tqdm(grouped_data.items(), desc="Processing OpenQA groups"):
+#             result = process_with_rag_openqa(group_id, queries, medrag, reranker_type)
+#             results.append(result)
+#     else:
+#         for record in tqdm(data, desc="Processing dataset"):
+#             query = record["question"]
+#             ground_truth = record["answer"] 
+#            
+#             options = record["options"]
+#             ground_truth = record["answer"]
+            
+#             result = process_with_rag(query, sensitive_categories, medrag, reranker_type, options, ground_truth)
+#             results.append(result)
+#     # 保存结果
+#     with open(output_file, "w") as f:
+#         for result in results:
+#             f.write(json.dumps(result) + "\n")
+
+
 
 def process_dataset_with_rag(input_file, 
                             output_file, 
@@ -210,7 +245,7 @@ def process_dataset_with_rag(input_file,
         for group_id, queries in tqdm(grouped_data.items(), desc="Processing OpenQA groups"):
             result = process_with_rag_openqa(group_id, queries, medrag, reranker_type)
             results.append(result)
-    elif dataset_type in ["MedQA", "MedMCQA","MMLU"]
+    elif dataset_type in ["MedQA", "MedMCQA","MMLU"]:
         for record in tqdm(data, desc="Processing dataset"):
             query = record["question"]
 
@@ -253,23 +288,21 @@ if __name__ == "__main__":
     # Get the current working directory
     BASE_DIR = os.getcwd() # "/data_vault/pittnail/yuj49/rag_reason/MedRAG/src"
     OUTPUT_DIR = os.path.join(BASE_DIR, "result")
-
     # Update paths dynamically
-    args.input_file = os.path.join(BASE_DIR, args.input_file) if not os.path.isabs(args.input_file) else args.input_file
-    args.output_file = os.path.join(OUTPUT_DIR, f"rag_results_{args.dataset_type.lower()}_{args.model}.jsonl") 
-    from medrag import MedRAG as oldMedRAG
+    input_file = os.path.join(BASE_DIR, args.input_file) 
+    output_file = os.path.join(OUTPUT_DIR, f"rag_results_{args.dataset_type.lower()}_{args.model}.jsonl") 
+    # print("input_file", input_file)
+    # print("output_file", output_file)
+    # from medrag import MedRAG as oldMedRAG
     from medrag_clean import  MedRAG 
     # Init rag
     llm_names = ["OpenAI/gpt-3.5-turbo-16k",
-                os.path.join(BASE_DIR, "llama3.1_8B"),
-                os.path.join(BASE_DIR, "deepseek_llama8B"),
-                os.path.join(BASE_DIR, "deepseek_llama70B")]
-
+                os.path.join(BASE_DIR,"llama3.1_8B"),
+                os.path.join(BASE_DIR, "deepseek_r1")]
     if args.model == "llama3.18b":
         medrag = MedRAG(llm_name=llm_names[1])
-    elif args.model == "deepseek_llama8B":
+    elif args.model == "deepseekr1_8b":
         medrag = MedRAG(llm_name=llm_names[2])
-    elif args.model == "deepseek_llama70B":
-        medrag = MedRAG(llm_name=llm_names[3])
     model_name =args.model
-    process_dataset_with_rag(args.input_file, args.output_file, sensitive_categories, medrag, args.dataset_type, args.reranker_type, model_name, args.topk)
+    
+    process_dataset_with_rag(input_file, output_file, sensitive_categories, medrag, args.dataset_type, args.reranker_type, model_name, args.topk)
