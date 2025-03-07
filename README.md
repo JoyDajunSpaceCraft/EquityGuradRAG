@@ -24,8 +24,8 @@ Run the script with different dataset types:
 For selection problem
 ```
 python med_rag_bias.py --input_file  MMLU/dev --dataset_type MMLU --reranker_type cot --model llama3.18b
-python med_rag_bias.py --input_file MedMCQA/dev.jsonl --dataset_type MedQA --reranker_type cot --model llama3.18b 
-python med_rag_bias.py --input_file MedQAUS/dev.jsonl --dataset_type MedMCQA --reranker_type cot --model llama3.18b 
+python med_rag_bias.py --input_file MedMCQA/dev.jsonl --dataset_type MedMCQA --reranker_type cot --model llama3.18b 
+python med_rag_bias.py --input_file MedQAUS/dev.jsonl --dataset_type MedQA --reranker_type cot --model llama3.18b 
 ```
 
 For open question problem
